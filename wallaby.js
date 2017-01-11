@@ -48,7 +48,12 @@ module.exports = (wallaby) => {
 
     return {
         compilers: {
-            '**/*.js': wallaby.compilers.babel()
+            '**/*.js': wallaby.compilers.babel({
+                babelrc: true,
+                plugins: [
+                  'transform-es2015-modules-amd'
+                ]
+            })
         },
 
         debug: true,
@@ -66,7 +71,7 @@ module.exports = (wallaby) => {
             app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
         },
 
-        setup: ((w) => {
+        setup: (function(w) {
             w.delayStart();
 
             requirejs.config({
@@ -81,7 +86,7 @@ module.exports = (wallaby) => {
                 ]
             });
 
-            require(['test/unit/setup.js'].concat(w.tests), () => {
+            require(['test/unit/setup.js'].concat(w.tests), function() {
                 w.start();
             });
         }).toString().replace('// packages', packages)
