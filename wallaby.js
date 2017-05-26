@@ -1,9 +1,15 @@
-let wallabyWebpack = require('wallaby-webpack');
-let wallabyPostprocessor = wallabyWebpack({
-  entryPatterns: ['test/unit/setup.js', 'test/unit/**/*.spec.js']
-});
+const wallabyWebpack = require('wallaby-webpack');
+const path = require('path');
 
 module.exports = function(wallaby) {
+  const wallabyPostprocessor = wallabyWebpack({
+    entryPatterns: ['test/unit/setup.js', 'test/unit/**/*.spec.js'],
+    resolve: {
+      modules: [
+        path.join(wallaby.projectCacheDir, 'src')
+      ]
+    }
+  });
   return {
     files: [
       {pattern: 'src/**/*.js', load: false},
