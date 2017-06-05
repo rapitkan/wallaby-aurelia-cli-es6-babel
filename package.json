@@ -34,7 +34,6 @@
     "babel-register": "^6.9.0",
     "browser-sync": "^2.13.0",
     "connect-history-api-fallback": "^1.2.0",
-    "electron": "^1.6.10",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-babel": "^6.1.2",
     "gulp-changed-in-place": "^2.0.3",
@@ -54,7 +53,6 @@
     "through2": "^2.0.1",
     "uglify-js": "^2.6.3",
     "vinyl-fs": "^2.4.3",
-    "wallaby-webpack": "^0.0.38",
     "webpack": "^2.6.1"
   }
 }
