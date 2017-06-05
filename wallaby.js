@@ -1,38 +1,30 @@
-const wallabyWebpack = require('wallaby-webpack');
-const path = require('path');
-
 module.exports = function(wallaby) {
-  const wallabyPostprocessor = wallabyWebpack({
-    entryPatterns: ['test/unit/setup.js', 'test/unit/**/*.spec.js'],
-    resolve: {
-      modules: [
-        path.join(wallaby.projectCacheDir, 'src')
-      ]
-    }
-  });
+
   return {
     files: [
-      {pattern: 'src/**/*.js', load: false},
-      {pattern: 'test/stubs/**/*.js', load: false},
-      {pattern: 'test/unit/setup.js', load: false}
+      'src/**/*.js',
+      'src/**/*.html',
+      'test/**/*.js',
+      '!test/unit/**/*.spec.js'
     ],
 
-    tests: [
-      {pattern: 'test/unit/**/*.spec.js', load: false}
-    ],
+    tests: ['test/unit/**/*.spec.js'],
 
     env: {
-      kind: 'electron'
+      type: 'node'
     },
+
+    testFramework: 'jasmine',
 
     compilers: {
       '**/*.js': wallaby.compilers.babel()
     },
 
-    postprocessor: wallabyPostprocessor,
-
-    setup: function() {
-      window.__moduleBundler.loadTests();
+    setup: function(w) {
+      w.testFramework.DEFAULT_TIMEOUT_INTERVAL = 500;
+      require('aurelia-polyfills');
+      require('aurelia-loader-nodejs').Options.relativeToDir = require('path').join(w.projectCacheDir, 'src');
+      require('aurelia-pal-nodejs').globalize();
     }
   };
 };
